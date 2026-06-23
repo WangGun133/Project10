@@ -10,11 +10,44 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "TestActor.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 //////////////////////////////////////////////////////////////////////////
 // AModuleAndPluginCharacter
+
+void AModuleAndPluginCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (UWorld* World = GetWorld())
+	{
+		FVector SpawnLocation = GetActorLocation() + FVector(200.0f, 0.0f, 100.0f);
+		FRotator SpawnRotation = FRotator::ZeroRotator;
+
+		ATestActor* SpawnedActor = World->SpawnActor<ATestActor>(
+			ATestActor::StaticClass(),
+			SpawnLocation,
+			SpawnRotation
+		);
+
+		if (SpawnedActor)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Spawned ATestActor Successfully"));
+
+			if (GEngine)
+			{
+				GEngine->AddOnScreenDebugMessage(
+					-1,
+					5.0f,
+					FColor::Yellow,
+					TEXT("Spawned ATestActor from ModuleAndPlugin")
+				);
+			}
+		}
+	}
+}
 
 AModuleAndPluginCharacter::AModuleAndPluginCharacter()
 {

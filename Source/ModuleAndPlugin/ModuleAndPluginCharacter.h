@@ -45,6 +45,7 @@ class AModuleAndPluginCharacter : public ACharacter
 	UInputAction* LookAction;
 
 public:
+	void BeginPlay();
 	AModuleAndPluginCharacter();
 	
 
